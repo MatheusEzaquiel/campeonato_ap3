@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Listagem de Jogos</title>
+</h:head>
+
+<h:body>
+
+	<p:link value="Voltar ao Menu" outcome="opcoes.xhtml" />
+
+    <h:form id="form">
+        <h1>Jogos Cadastrados</h1>
+
+        <p:messages id="msgs" showDetail="true" />
+
+        <!-- TABELA COM EDIÇÃO INLINE -->
+        <p:dataTable id="tabelaJogos" value="#{jogoBean.listaJogos}" var="jogo"
+                     editable="true" editMode="row" style="margin-bottom:20px" rowKey="#{jogo.id}">
+
+            <!-- Eventos de edição -->
+            <p:ajax event="rowEdit" listener="#{jogoBean.onRowEdit}" update="form:msgs"/>
+            <p:ajax event="rowEditCancel" listener="#{jogoBean.onRowCancel}" update="form:msgs"/>
+
+            <p:column headerText="Time 1">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{jogo.time1}" /></f:facet>
+                    <f:facet name="input"><p:inputText value="#{jogo.time1}" style="width:100%" /></f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="Gols Time 1">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{jogo.golsTime1}" /></f:facet>
+                    <f:facet name="input"><p:inputText value="#{jogo.golsTime1}" style="width:100%" /></f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="Time 2">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{jogo.time2}" /></f:facet>
+                    <f:facet name="input"><p:inputText value="#{jogo.time2}" style="width:100%" /></f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="Gols Time 2">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{jogo.golsTime2}" /></f:facet>
+                    <f:facet name="input"><p:inputText value="#{jogo.golsTime2}" style="width:100%" /></f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="Campeonato">
+                <h:outputText value="#{jogo.campeonato.nome}" />
+            </p:column>
+
+            <p:column headerText="Data de Cadastro">
+                <h:outputText value="#{jogo.dataCadastro}">
+                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                </h:outputText>
+            </p:column>
+
+            <p:column headerText="Ações" style="width:8rem">
+                <p:rowEditor />
+                <p:commandButton icon="pi pi-trash" title="Excluir" action="#{jogoBean.excluir(jogo)}"
+                                 styleClass="p-button-danger p-ml-2" update="form:tabelaJogos form:msgs"
+                                 onclick="return confirm('Tem certeza que deseja excluir este jogo?');" />
+            </p:column>
+        </p:dataTable>
+
+        <!-- BOTÃO PARA VER RESUMO -->
+        <p:commandButton value="Ver Resumo" action="#{jogoBean.gerarResumo}" update="form" style="margin-top:20px"/>
+
+        <!-- TABELA DE RESUMO -->
+        <p:dataTable value="#{jogoBean.resumoTimes}" var="r" rendered="#{not empty jogoBean.resumoTimes}" border="1" style="margin-top:20px">
+            <p:column headerText="Time"><h:outputText value="#{r.time}" /></p:column>
+            <p:column headerText="Pontos"><h:outputText value="#{r.pontos}" /></p:column>
+            <p:column headerText="Vitórias"><h:outputText value="#{r.vitorias}" /></p:column>
+            <p:column headerText="Empates"><h:outputText value="#{r.empates}" /></p:column>
+            <p:column headerText="Derrotas"><h:outputText value="#{r.derrotas}" /></p:column>
+            <p:column headerText="Gols Marcados"><h:outputText value="#{r.golsMarcados}" /></p:column>
+            <p:column headerText="Gols Sofridos"><h:outputText value="#{r.golsSofridos}" /></p:column>
+            <p:column headerText="Saldo de Gols"><h:outputText value="#{r.saldoGols}" /></p:column>
+        </p:dataTable>
+
+        <h:link value="Voltar para Cadastro" outcome="cadastro_jogo.xhtml" style="margin-top:30px; display:block" />
+    </h:form>
+</h:body>
+</html>

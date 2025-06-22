@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+	<title>DAC3 | Cadastro de Usuário</title>
+</h:head>
+<h:body>
+
+    <p:link value="Voltar ao Menu" outcome="opcoes.xhtml" />
+
+	<h2>Cadastro de Usuário</h2>
+
+	<h:form>
+		<h:panelGrid columns="2">
+			<h:outputLabel value="Login:" />
+			<h:inputText value="#{usuarioBean.usuario.login}" />
+
+			<h:outputLabel value="Nome:" />
+			<h:inputText value="#{usuarioBean.usuario.nome}" />
+
+			<h:outputLabel value="Senha:" />
+			<h:inputSecret value="#{usuarioBean.usuario.senha}" />
+		</h:panelGrid>
+
+		<h:commandButton value="Salvar" action="#{usuarioBean.salvar}" />
+	</h:form>
+
+	<h2>Lista de Usuários</h2>
+	<h:dataTable value="#{usuarioBean.usuarios}" var="u" border="1">
+		<p:column headerText="#">#{u.id}</p:column>
+		<p:column headerText="Nome">#{u.login}</p:column>
+		<p:column headerText="Nome">#{u.nome}</p:column>
+		<p:column headerText="Senha"> #{u.senha}</p:column>
+	</h:dataTable>
+</h:body>
+</html>

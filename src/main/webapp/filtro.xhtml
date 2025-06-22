@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Filtro de Jogos por Time</title>
+</h:head>
+<h:body>
+
+	<p:link value="Voltar ao Menu" outcome="opcoes.xhtml" />
+	
+	<h:form>
+        
+        <h2>Filtrar Jogos por Time</h2>
+	
+		<!-- INPUTS P/ FILTRAR JOGOS -->
+		<h:selectOneMenu id="timeSelect" value="#{jogoBean.timeSelecionado}"
+			required="true">
+			<f:selectItem itemLabel="Selecione" itemValue="#{null}"
+				noSelectionOption="true" />
+			<f:selectItems value="#{jogoBean.listaTimes}" var="t"
+				itemValue="#{t}" itemLabel="#{t}" />
+		</h:selectOneMenu>
+		
+		<h:commandButton value="Localizar" action="#{jogoBean.buscarPorTime}" update="tabelaJogos" />
+		
+		
+		<!-- TABELA DE JOGOS DO TIME FILTRADA -->
+		<p:dataTable id="tabelaJogos" value="#{jogoBean.jogosFiltrados}" var="jogo"
+		rendered="#{not empty jogoBean.jogosFiltrados}" border="1">
+			<p:column>
+				<f:facet name="header">Time 1</f:facet>
+				#{jogo.time1}
+			</p:column>
+			<p:column>
+				<f:facet name="header">Gols</f:facet>
+				#{jogo.golsTime1}
+			</p:column>
+			<p:column>
+				<f:facet name="header">Time 2</f:facet>
+				#{jogo.time2}
+			</p:column>
+			<p:column>
+				<f:facet name="header">Gols</f:facet>
+				#{jogo.golsTime2}
+			</p:column>
+		</p:dataTable>
+    </h:form>
+
+</h:body>
+</html>
